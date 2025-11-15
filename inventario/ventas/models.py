@@ -1,10 +1,9 @@
 from django.db import models
-from clientes.models import Cliente
 from productos.models import Producto
 
 class Venta(models.Model):
     codigo = models.CharField(max_length=20, unique=True)
-    cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
+    cliente = models.CharField(max_length=100)  # temporal hasta tener app clientes
     fecha = models.DateTimeField(auto_now_add=True)
     total = models.DecimalField(max_digits=10, decimal_places=2, default=0)
 
@@ -16,7 +15,7 @@ class ItemVenta(models.Model):
     producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
     cantidad = models.PositiveIntegerField()
     precio_unitario = models.DecimalField(max_digits=10, decimal_places=2)
-    subtotal = models.DecimalField(max_digits=10, decimal_places=2)
+    subtotal = models.DecimalField(max_digits=10, decimal_places=2, editable=False)
 
     def save(self, *args, **kwargs):
         self.subtotal = self.cantidad * self.precio_unitario

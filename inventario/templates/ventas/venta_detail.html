@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Venta #{{ venta.codigo }}</h2>
+<p>Cliente: {{ venta.cliente }}</p>
+<p>Fecha: {{ venta.fecha }}</p>
+<p>Total: ${{ venta.total }}</p>
+
+<h4>Items</h4>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Producto</th>
+      <th>Cantidad</th>
+      <th>Precio Unitario</th>
+      <th>Subtotal</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for item in venta.items.all %}
+    <tr>
+      <td>{{ item.producto }}</td>
+      <td>{{ item.cantidad }}</td>
+      <td>${{ item.precio_unitario }}</td>
+      <td>${{ item.subtotal }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
