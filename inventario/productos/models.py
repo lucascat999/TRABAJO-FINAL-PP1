@@ -58,25 +58,3 @@ class Producto(models.Model):
     @property
     def necesita_reposicion(self):
         return self.stock < self.stock_minimo
-
-class MovimientoStock(models.Model):
-    TIPO_CHOICES = [
-        ("entrada", "Entrada"),
-        ("salida", "Salida"),
-        ("ajuste", "Ajuste"),
-    ]
-
-    producto = models.ForeignKey(Producto, on_delete=models.CASCADE, related_name='movimientos')
-    tipo = models.CharField("Tipo", max_length=50, choices=TIPO_CHOICES)
-    cantidad = models.IntegerField()
-    motivo = models.CharField("Motivo", max_length=200, blank=True, null=True)
-    fecha = models.DateTimeField("Fecha", default=timezone.now)
-    usuario = models.CharField("Usuario", max_length=50)
-
-    class Meta:
-        verbose_name = 'Movimiento de Stock'
-        verbose_name_plural = 'Movimientos de Stock'
-        ordering = ["-fecha"]
-
-    def __str__(self):
-        return f"{self.producto.nombre} - {self.tipo} - {self.cantidad}"

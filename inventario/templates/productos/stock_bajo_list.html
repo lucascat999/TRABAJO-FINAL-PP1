@@ -1,0 +1,30 @@
+<!-- productos/templates/productos/stock_bajo_list.html -->
+{% extends 'base.html' %}
+{% block content %}
+<div class="container mt-4">
+  <h2 class="mb-3"><i class="fas fa-exclamation-triangle"></i> Productos con stock bajo</h2>
+
+  {% if productos %}
+    <table class="table table-sm table-striped">
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th class="text-center">Stock actual</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for p in productos %}
+          <tr>
+            <td>{{ p.nombre }}</td>
+            <td class="text-center">{{ p.stock }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <div class="alert alert-info">
+      No hay productos con stock bajo.
+    </div>
+  {% endif %}
+</div>
+{% endblock %}

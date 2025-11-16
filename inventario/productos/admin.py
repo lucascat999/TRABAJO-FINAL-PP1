@@ -7,3 +7,4 @@ class ProductoAdmin(admin.ModelAdmin):
     search_fields = ['sku', 'nombre']
     list_filter = ['stock_minimo', 'fecha_creacion']
     ordering = ['sku']
+    readonly_fields = ['fecha_creacion', 'fecha_actualizacion']
