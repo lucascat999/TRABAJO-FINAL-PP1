@@ -2,8 +2,11 @@ from django import forms
 from django.forms import inlineformset_factory
 from .models import Venta, ItemVenta
 from productos.models import Producto
+from clientes.models import Cliente
 
 class VentaForm(forms.ModelForm):
+    cliente = forms.ModelChoiceField(queryset=Cliente.objects.all(), empty_label=None)
+
     class Meta:
         model = Venta
         fields = ['codigo', 'cliente']
@@ -21,5 +24,5 @@ class ItemVentaForm(forms.ModelForm):
         return cantidad
 
 ItemVentaFormSet = inlineformset_factory(
-    Venta, ItemVenta, form=ItemVentaForm, extra=1, can_delete=True
+    Venta, ItemVenta, form=ItemVentaForm, extra=0, can_delete=True
 )
