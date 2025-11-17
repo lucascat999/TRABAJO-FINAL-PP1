@@ -17,10 +17,28 @@ def get_image_path(instance, filename):
     filename = f"{uuid.uuid4()}.{ext}"
     return os.path.join("productos", filename)
 
+class Categoria(models.Model):
+    nombre = models.CharField(max_length=100, unique=True)
+    descripcion = models.TextField(blank=True, null=True)
+
+    class Meta:
+        verbose_name_plural = "Categorías"
+        ordering = ['nombre']
+
+    def __str__(self):
+        return self.nombre
+
 class Producto(models.Model):
     sku = models.CharField(max_length=20, unique=True, verbose_name="SKU")
     nombre = models.CharField("Nombre", max_length=50)
     descripcion = models.CharField("Descripcion", max_length=200)
+    categoria = models.ForeignKey(
+        Categoria,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        verbose_name="Rubro / Categoría"
+    )
     precio = models.DecimalField("Precio", max_digits=10, decimal_places=2)
     stock = models.IntegerField(default=0)
     stock_minimo = models.IntegerField(default=5, verbose_name="Stock Mínimo")

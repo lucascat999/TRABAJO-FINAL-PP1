@@ -11,6 +11,7 @@ urlpatterns = [
     path('', include('productos.urls')),   # ← raíz → productos.urls
     path('ventas/', include('ventas.urls')),
     path('clientes/', include('clientes.urls')),
+     path('productos/', include('productos.urls')),
 ]
 
 if settings.DEBUG:

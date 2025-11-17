@@ -1,13 +1,13 @@
 from django import forms
 from django.core.exceptions import ValidationError
-from .models import Producto
+from .models import Producto, Categoria
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Field, ButtonHolder, Submit, HTML
 
 class ProductoForm(forms.ModelForm):
     class Meta:
         model = Producto
-        fields = ["sku", "nombre", "descripcion", "precio", "stock", "stock_minimo", "imagen"]
+        fields = ["sku", "nombre", "descripcion", "categoria", "precio", "stock", "stock_minimo", "imagen"]
         widgets = {
             "descripcion": forms.Textarea(attrs={"rows": 3}),
         }
@@ -20,11 +20,13 @@ class ProductoForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.fields['categoria'].queryset = Categoria.objects.all()
         self.helper = FormHelper()
         self.helper.layout = Layout(
-            Field("sku", placeholder="Ej: PROD-001"),
+            Field("sku", placeholder="Ej: FER-001"),
             Field("nombre", placeholder="Nombre del producto"),
             Field("descripcion", placeholder="Breve descripción"),
+            Field("categoria", placeholder="Seleccione rubro"),
             Field("precio", placeholder="0.00"),
             Field("stock", placeholder="Cantidad actual"),
             Field("stock_minimo", placeholder="Mínimo antes de alerta"),
