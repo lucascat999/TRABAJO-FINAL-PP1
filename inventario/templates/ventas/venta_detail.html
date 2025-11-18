@@ -1,56 +1,122 @@
 {% extends 'base.html' %}
 
-{% block title %}Venta #{{ venta.codigo }}{% endblock %}
+{% block title %}Detalle de Venta #{{ venta.codigo }}{% endblock %}
 
 {% block content %}
 <div class="card shadow-sm">
-    <div class="card-header d-flex justify-content-between align-items-center">
-        <h4 class="mb-0">Venta #{{ venta.codigo }}</h4>
-        {% if venta.anulada %}
-            <span class="badge bg-danger fs-6">ANULADA</span>
-        {% endif %}
+    <div class="card-header bg-primary text-white">
+        <div class="d-flex justify-content-between align-items-center">
+            <h4 class="mb-0">
+                <i class="fas fa-receipt"></i> Detalle de Venta #{{ venta.codigo }}
+            </h4>
+            <div>
+                {% if not venta.anulada %}
+                    <a href="{% url 'venta_update' venta.pk %}" class="btn btn-warning btn-sm">
+                        <i class="fas fa-edit"></i> Editar
+                    </a>
+                    <a href="{% url 'venta_anular' venta.pk %}" class="btn btn-danger btn-sm" 
+                       onclick="return confirm('¿Está seguro de anular esta venta?')">
+                        <i class="fas fa-ban"></i> Anular
+                    </a>
+                {% endif %}
+                <a href="{% url 'venta_print' venta.pk %}" target="_blank" class="btn btn-info btn-sm">
+                    <i class="fas fa-print"></i> Imprimir
+                </a>
+                <a href="{% url 'venta_list' %}" class="btn btn-secondary btn-sm">
+                    <i class="fas fa-arrow-left"></i> Volver
+                </a>
+            </div>
+        </div>
     </div>
+    
     <div class="card-body">
-        <p><strong>Cliente:</strong> {{ venta.cliente }}</p>
-        <p><strong>Fecha:</strong> {{ venta.fecha|date:"d/m/Y H:i" }}</p>
-        <p><strong>Total:</strong> ${{ venta.total|floatformat:2 }}</p>
+        <!-- Información de la venta -->
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <h5>Información de la Venta</h5>
+                <table class="table table-sm">
+                    <tr>
+                        <th>Código:</th>
+                        <td>{{ venta.codigo }}</td>
+                    </tr>
+                    <tr>
+                        <th>Fecha:</th>
+                        <td>{{ venta.fecha|date:"d/m/Y H:i" }}</td>
+                    </tr>
+                    <tr>
+                        <th>Cliente:</th>
+                        <td>{{ venta.cliente.nombre }} {{ venta.cliente.apellido|default:"" }}</td>
+                    </tr>
+                    <tr>
+                        <th>Estado:</th>
+                        <td>
+                            {% if venta.anulada %}
+                                <span class="badge bg-danger">ANULADA</span>
+                            {% else %}
+                                <span class="badge bg-success">ACTIVA</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-md-6">
+                <h5>Datos del Cliente</h5>
+                <table class="table table-sm">
+                    <tr>
+                        <th>Nombre:</th>
+                        <td>{{ venta.cliente.nombre }} {{ venta.cliente.apellido|default:"" }}</td>
+                    </tr>
+                    <tr>
+                        <th>DNI:</th>
+                        <td>{{ venta.cliente.dni|default:"-" }}</td>
+                    </tr>
+                    <tr>
+                        <th>Teléfono:</th>
+                        <td>{{ venta.cliente.telefono|default:"-" }}</td>
+                    </tr>
+                    <tr>
+                        <th>Email:</th>
+                        <td>{{ venta.cliente.email|default:"-" }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
 
-        <h5 class="mt-4">Items</h5>
-        <table class="table table-sm table-bordered">
-            <thead class="table-light">
-                <tr>
-                    <th>Producto</th>
-                    <th>Cantidad</th>
-                    <th>Precio Unitario</th>
-                    <th>Subtotal</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for item in venta.items.all %}
-                <tr>
-                    <td>{{ item.producto }}</td>
-                    <td>{{ item.cantidad }}</td>
-                    <td>${{ item.precio_unitario|floatformat:2 }}</td>
-                    <td>${{ item.subtotal|floatformat:2 }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-
-        <div class="mt-3">
-            <a href="{% url 'venta_update' venta.pk %}" class="btn btn-warning">
-                <i class="fas fa-edit"></i> Editar
-            </a>
-            <a href="{% url 'venta_anular' venta.pk %}" class="btn btn-danger"
-               onclick="return confirm('¿Anular esta venta? Se devolverá el stock.');">
-                <i class="fas fa-ban"></i> Anular
-            </a>
-            <a href="{% url 'venta_print' venta.pk %}" target="_blank" class="btn btn-info">
-                <i class="fas fa-print"></i> Imprimir
-            </a>
-            <a href="{% url 'venta_list' %}" class="btn btn-secondary">
-                <i class="fas fa-arrow-left"></i> Volver al listado
-            </a>
+        <!-- Items de la venta -->
+        <h5>Productos Vendidos</h5>
+        <div class="table-responsive">
+            <table class="table table-striped table-hover">
+                <thead class="table-dark">
+                    <tr>
+                        <th>#</th>
+                        <th>Producto</th>
+                        <th>Cantidad</th>
+                        <th>Precio Unitario</th>
+                        <th>Subtotal</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in venta.items.all %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ item.producto.nombre }}</td>
+                        <td>{{ item.cantidad }}</td>
+                        <td>${{ item.precio_unitario }}</td>
+                        <td>${{ item.subtotal }}</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="5" class="text-center">No hay productos en esta venta</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+                <tfoot>
+                    <tr class="table-info">
+                        <th colspan="4" class="text-end">TOTAL:</th>
+                        <th>${{ venta.total }}</th>
+                    </tr>
+                </tfoot>
+            </table>
         </div>
     </div>
 </div>

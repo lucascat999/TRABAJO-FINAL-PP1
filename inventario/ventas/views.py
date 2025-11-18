@@ -1,3 +1,4 @@
+# ventas/views.py
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -16,22 +17,7 @@ def venta_create(request):
     if request.method == 'POST':
         form = VentaForm(request.POST)
         formset = ItemVentaFormSet(request.POST)
-
-        # =====  DEBUG  =====
-        print("DEBUG form errors:", form.errors)
-        print("DEBUG formset errors:", formset.errors)
-        print("DEBUG formset non-form errors:", formset.non_form_errors())
-        for f in formset.forms:
-            print("  form errors:", f.errors)
-        # ===================
-
         if form.is_valid() and formset.is_valid():
-            print("DEBUG form válido")
-            print("DEBUG formset válido")
-            print("DEBUG cantidad de forms en formset:", len(formset.forms))
-            for f in formset.forms:
-                print("  form data:", f.cleaned_data, "errors:", f.errors)
-
             venta = form.save(commit=False)
             venta.save()
 
@@ -39,15 +25,18 @@ def venta_create(request):
                 if item_form.cleaned_data and not item_form.cleaned_data.get('DELETE'):
                     item = item_form.save(commit=False)
                     item.venta = venta
-                    item.subtotal = item.cantidad * item.precio_unitario
-                    item.save()
 
                     producto = item.producto
-                    if producto.stock < item.cantidad:
+                    cantidad = item.cantidad
+                    if producto.stock < cantidad:
                         messages.error(request, f"Stock insuficiente para {producto.nombre} (disponible: {producto.stock})")
                         raise ValueError("Stock insuficiente")
-                    producto.stock -= item.cantidad
+
+                    producto.stock -= cantidad
                     producto.save()
+
+                    item.subtotal = cantidad * item.precio_unitario
+                    item.save()
 
             venta.total = sum(it.subtotal for it in venta.items.all())
             venta.save()
