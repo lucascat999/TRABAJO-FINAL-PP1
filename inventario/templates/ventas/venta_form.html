@@ -11,7 +11,7 @@
     <div class="card-body">
         <form method="post" class="form">
             {% csrf_token %}
-            
+
             <!-- Fecha del día -->
             <div class="mb-3">
                 <label class="form-label">Fecha</label>
@@ -27,6 +27,8 @@
             <div id="items-form">
                 {% for form in formset %}
                     <div class="item-form border rounded p-3 mb-2">
+                        {{ form.id }}          <!--  ← id de cada item  -->
+                        {{ form.DELETE }}      <!--  ← campo DELETE     -->
                         <div class="row align-items-end">
                             <div class="col-md-4">
                                 <label>Producto</label>
@@ -104,13 +106,13 @@ document.addEventListener('input', function (e) {
 
 // ---------- Actualizar índices de formset ----------
 function updateFormIndexes() {
-    const forms = document.querySelectorAll('.item-form');
+    const forms = document.querySelectorAll('.item-form:not(.empty-form)');
     forms.forEach((form, index) => {
         form.querySelectorAll('input, select').forEach(input => {
             const name = input.name;
             if (name) {
                 input.name = name.replace(/\d+/, index);
-                input.id = input.id.replace(/\d+/, index);
+                input.id   = input.id.replace(/\d+/, index);
             }
         });
     });
@@ -120,22 +122,17 @@ function updateFormIndexes() {
 
 <!-- Form vacío para clonar (oculto) -->
 <div class="item-form border rounded p-3 mb-2 empty-form" style="display: none;">
+    {{ formset.empty_form.id }}        <!--  ← id del empty-form  -->
+    {{ formset.empty_form.DELETE }}    <!--  ← DELETE del empty-form -->
     <div class="row align-items-end">
         <div class="col-md-4">
-            <label>Producto</label>
-            <select name="items-__prefix__-producto" class="form-select">
-                {% for p in formset.empty_form.producto.field.queryset %}
-                    <option value="{{ p.pk }}">{{ p }}</option>
-                {% endfor %}
-            </select>
+            {{ formset.empty_form.producto|as_crispy_field }}
         </div>
         <div class="col-md-2">
-            <label>Cantidad</label>
-            <input type="number" name="items-__prefix__-cantidad" class="form-control" min="1">
+            {{ formset.empty_form.cantidad|as_crispy_field }}
         </div>
         <div class="col-md-2">
-            <label>Precio Unitario</label>
-            <input type="number" name="items-__prefix__-precio_unitario" class="form-control" step="0.01">
+            {{ formset.empty_form.precio_unitario|as_crispy_field }}
         </div>
         <div class="col-md-2">
             <label>Subtotal</label>
