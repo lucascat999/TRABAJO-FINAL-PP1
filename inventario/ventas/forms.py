@@ -1,3 +1,4 @@
+# ventas/forms.py
 from django import forms
 from django.forms import inlineformset_factory
 from .models import Venta, ItemVenta
@@ -14,7 +15,7 @@ class VentaForm(forms.ModelForm):
 
     class Meta:
         model = Venta
-        fields = ['cliente']   # ← sacamos 'codigo' para que lo genere auto
+        fields = ['cliente']   # codigo se genera auto
 
 
 class ItemVentaForm(forms.ModelForm):
