@@ -33,12 +33,12 @@ class Producto(models.Model):
     nombre = models.CharField("Nombre", max_length=50)
     descripcion = models.CharField("Descripcion", max_length=200)
     categoria = models.ForeignKey(
-        Categoria,
-        on_delete=models.SET_NULL,
-        null=True,
-        blank=True,
-        verbose_name="Rubro / Categoría"
-    )
+    Categoria,
+    on_delete=models.SET_NULL,
+    null=True,
+    blank=True,
+    verbose_name="Rubro / Categoría"
+)
     precio = models.DecimalField("Precio", max_digits=10, decimal_places=2)
     stock = models.IntegerField(default=0)
     stock_minimo = models.IntegerField(default=5, verbose_name="Stock Mínimo")

@@ -1,11 +1,15 @@
 from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 from django.views.generic import ListView, DetailView
 from .models import Venta, ItemVenta
 from .forms import VentaForm, ItemVentaFormSet
 from productos.models import Producto
 
+
 # ---------- CREAR VENTA ----------
+@login_required
 def venta_create(request):
     if request.method == 'POST':
         form = VentaForm(request.POST)
@@ -31,9 +35,7 @@ def venta_create(request):
         form = VentaForm()
         formset = ItemVentaFormSet()
     
-    # Enviar productos al template para el form vacío
     productos = Producto.objects.all()
-    
     return render(request, 'ventas/venta_form.html', {
         'form': form,
         'formset': formset,
@@ -41,7 +43,9 @@ def venta_create(request):
         'productos': productos,
     })
 
+
 # ---------- EDITAR VENTA ----------
+@login_required
 def venta_update(request, pk):
     venta = get_object_or_404(Venta, pk=pk)
     if request.method == 'POST':
@@ -73,9 +77,7 @@ def venta_update(request, pk):
         form = VentaForm(instance=venta)
         formset = ItemVentaFormSet(instance=venta)
     
-    # Enviar productos al template
     productos = Producto.objects.all()
-    
     return render(request, 'ventas/venta_form.html', {
         'form': form,
         'formset': formset,
@@ -83,7 +85,9 @@ def venta_update(request, pk):
         'productos': productos,
     })
 
+
 # ---------- ANULAR VENTA ----------
+@login_required
 def venta_anular(request, pk):
     venta = get_object_or_404(Venta, pk=pk)
     if not venta.anulada:
@@ -98,21 +102,24 @@ def venta_anular(request, pk):
         messages.warning(request, "La venta ya estaba anulada.")
     return redirect('venta_detail', pk=pk)
 
+
 # ---------- LISTADO ----------
-class VentaListView(ListView):
+class VentaListView(LoginRequiredMixin, ListView):
     model = Venta
     template_name = 'ventas/venta_list.html'
     context_object_name = 'ventas'
     ordering = ['-fecha']
 
+
 # ---------- DETALLE ----------
-class VentaDetailView(DetailView):
+class VentaDetailView(LoginRequiredMixin, DetailView):
     model = Venta
     template_name = 'ventas/venta_detail.html'
     context_object_name = 'venta'
 
+
 # ---------- IMPRIMIR ----------
-class VentaPrintView(DetailView):
+class VentaPrintView(LoginRequiredMixin, DetailView):
     model = Venta
     template_name = 'ventas/venta_print.html'
     context_object_name = 'venta'

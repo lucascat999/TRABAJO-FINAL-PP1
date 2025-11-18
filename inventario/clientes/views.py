@@ -1,11 +1,13 @@
-from django.db import models                 
+from django.db import models
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from django.contrib import messages
 from .models import Cliente
 from .forms import ClienteForm
 
-class ClienteListView(ListView):
+
+class ClienteListView(LoginRequiredMixin, ListView):
     model = Cliente
     template_name = 'clientes/cliente_list.html'
     context_object_name = 'clientes'
@@ -20,7 +22,8 @@ class ClienteListView(ListView):
             )
         return queryset
 
-class ClienteCreateView(CreateView):
+
+class ClienteCreateView(LoginRequiredMixin, CreateView):
     model = Cliente
     form_class = ClienteForm
     template_name = 'clientes/cliente_form.html'
@@ -30,7 +33,8 @@ class ClienteCreateView(CreateView):
         messages.success(self.request, "Cliente creado correctamente.")
         return super().form_valid(form)
 
-class ClienteUpdateView(UpdateView):
+
+class ClienteUpdateView(LoginRequiredMixin, UpdateView):
     model = Cliente
     form_class = ClienteForm
     template_name = 'clientes/cliente_form.html'
@@ -40,7 +44,8 @@ class ClienteUpdateView(UpdateView):
         messages.success(self.request, "Cliente actualizado correctamente.")
         return super().form_valid(form)
 
-class ClienteDeleteView(DeleteView):
+
+class ClienteDeleteView(LoginRequiredMixin, DeleteView):
     model = Cliente
     template_name = 'clientes/cliente_confirm_delete.html'
     success_url = reverse_lazy('clientes:cliente_list')

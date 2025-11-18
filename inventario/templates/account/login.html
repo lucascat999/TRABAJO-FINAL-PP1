@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+
+{% block title %}Iniciar sesión{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-5 col-lg-4">
+    <div class="card shadow-lg border-0">
+      <div class="card-header bg-primary text-white text-center">
+        <h4 class="mb-0"><i class="fas fa-sign-in-alt"></i> Iniciar sesión</h4>
+      </div>
+      <div class="card-body">
+        {% if messages %}
+          {% for msg in messages %}
+            <div class="alert alert-{{ msg.tags }} alert-dismissible fade show" role="alert">
+              {{ msg }}
+              <button type="button" class="close" data-dismiss="alert" aria-label="Cerrar">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+          {% endfor %}
+        {% endif %}
+
+        <form method="post" class="form">
+          {% csrf_token %}
+          {% bootstrap_form form %}
+          {% buttons %}
+            <button type="submit" class="btn btn-primary btn-block">
+              <i class="fas fa-sign-in-alt"></i> Ingresar
+            </button>
+          {% endbuttons %}
+        </form>
+
+        <hr>
+        <p class="text-center small text-muted">
+          ¿Olvidaste tu contraseña?
+          <a href="{% url 'account_reset_password' %}">Restablecer</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

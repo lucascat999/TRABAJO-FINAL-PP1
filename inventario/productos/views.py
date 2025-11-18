@@ -1,10 +1,11 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.views.generic import ListView, CreateView
+from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .models import Producto, Categoria
 from .forms import ProductoForm
 
 # ---------- Listado con filtro por rubro ----------
+@login_required
 def producto_list(request):
     qs = Producto.objects.all().order_by('nombre')
     categoria_id = request.GET.get('categoria')
@@ -15,6 +16,7 @@ def producto_list(request):
                   {'productos': qs, 'categorias': categorias})
 
 # ---------- Alta ----------
+@login_required
 def producto_create(request):
     if request.method == 'POST':
         form = ProductoForm(request.POST, request.FILES)
@@ -27,11 +29,13 @@ def producto_create(request):
     return render(request, 'productos/producto_form.html', {'form': form})
 
 # ---------- Detalle ----------
+@login_required
 def producto_detail(request, pk):
     producto = get_object_or_404(Producto, pk=pk)
     return render(request, 'productos/producto_detail.html', {'producto': producto})
 
 # ---------- Edición ----------
+@login_required
 def producto_update(request, pk):
     producto = get_object_or_404(Producto, pk=pk)
     if request.method == 'POST':
@@ -45,6 +49,7 @@ def producto_update(request, pk):
     return render(request, 'productos/producto_form.html', {'form': form})
 
 # ---------- Eliminación ----------
+@login_required
 def producto_delete(request, pk):
     producto = get_object_or_404(Producto, pk=pk)
     if request.method == 'POST':
@@ -54,6 +59,7 @@ def producto_delete(request, pk):
     return render(request, 'productos/producto_confirm_delete.html', {'producto': producto})
 
 # ---------- Stock bajo ----------
+@login_required
 def stock_bajo_list(request):
     productos = Producto.objects.filter(stock__lte=10)
     return render(request, 'productos/stock_bajo_list.html', {'productos': productos})
