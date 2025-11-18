@@ -1,0 +1,23 @@
+[
+  { "model": "inventario.categoria", "pk": 1, "fields": { "nombre": "Ferretería", "descripcion": "Herramientas y accesorios" } },
+  { "model": "inventario.categoria", "pk": 2, "fields": { "nombre": "Electricidad", "descripcion": "Materiales eléctricos" } },
+  { "model": "inventario.categoria", "pk": 3, "fields": { "nombre": "Pintura", "descripcion": "Pinturas y solventes" } },
+
+  { "model": "inventario.producto", "pk": 1, "fields": { "sku": "FER-001", "nombre": "Martillo", "descripcion": "Martillo carpintero", "categoria": 1, "precio": "1500.00", "stock": 20, "stock_minimo": 5 } },
+  { "model": "inventario.producto", "pk": 2, "fields": { "sku": "FER-002", "nombre": "Destornillador plano", "descripcion": "Destornillador de acero", "categoria": 1, "precio": "800.00", "stock": 35, "stock_minimo": 10 } },
+  { "model": "inventario.producto", "pk": 3, "fields": { "sku": "FER-003", "nombre": "Llave inglesa", "descripcion": "Llave ajustable", "categoria": 1, "precio": "2200.00", "stock": 15, "stock_minimo": 5 } },
+  { "model": "inventario.producto", "pk": 4, "fields": { "sku": "FER-004", "nombre": "Taladro eléctrico", "descripcion": "Taladro 500W", "categoria": 1, "precio": "12000.00", "stock": 8, "stock_minimo": 2 } },
+  { "model": "inventario.producto", "pk": 5, "fields": { "sku": "FER-005", "nombre": "Sierra manual", "descripcion": "Sierra para madera", "categoria": 1, "precio": "1800.00", "stock": 12, "stock_minimo": 3 } },
+
+  { "model": "inventario.producto", "pk": 6, "fields": { "sku": "ELE-001", "nombre": "Cable eléctrico 2x1.5", "descripcion": "Cable normalizado", "categoria": 2, "precio": "2500.00", "stock": 50, "stock_minimo": 10 } },
+  { "model": "inventario.producto", "pk": 7, "fields": { "sku": "ELE-002", "nombre": "Interruptor simple", "descripcion": "Interruptor de pared", "categoria": 2, "precio": "600.00", "stock": 40, "stock_minimo": 10 } },
+  { "model": "inventario.producto", "pk": 8, "fields": { "sku": "ELE-003", "nombre": "Lamparita LED 9W", "descripcion": "Luz blanca fría", "categoria": 2, "precio": "900.00", "stock": 100, "stock_minimo": 20 } },
+  { "model": "inventario.producto", "pk": 9, "fields": { "sku": "ELE-004", "nombre": "Tablero eléctrico", "descripcion": "Caja con térmica", "categoria": 2, "precio": "7500.00", "stock": 10, "stock_minimo": 2 } },
+  { "model": "inventario.producto", "pk": 10, "fields": { "sku": "ELE-005", "nombre": "Toma corriente doble", "descripcion": "Toma pared 220V", "categoria": 2, "precio": "700.00", "stock": 60, "stock_minimo": 15 } },
+
+  { "model": "inventario.producto", "pk": 11, "fields": { "sku": "PIN-001", "nombre": "Pintura látex blanca", "descripcion": "Balde 20 litros", "categoria": 3, "precio": "12000.00", "stock": 8, "stock_minimo": 3 } },
+  { "model": "inventario.producto", "pk": 12, "fields": { "sku": "PIN-002", "nombre": "Pintura látex azul", "descripcion": "Balde 10 litros", "categoria": 3, "precio": "8000.00", "stock": 5, "stock_minimo": 2 } },
+  { "model": "inventario.producto", "pk": 13, "fields": { "sku": "PIN-003", "nombre": "Barniz brillante", "descripcion": "Lata 4 litros", "categoria": 3, "precio": "4500.00", "stock": 12, "stock_minimo": 4 } },
+  { "model": "inventario.producto", "pk": 14, "fields": { "sku": "PIN-004", "nombre": "Rodillo de pintura", "descripcion": "Rodillo 22cm", "categoria": 3, "precio": "1200.00", "stock": 25, "stock_minimo": 5 } },
+  { "model": "inventario.producto", "pk": 15, "fields": { "sku": "PIN-005", "nombre": "Pincel 2 pulgadas", "descripcion": "Pincel de cerda", "categoria": 3, "precio": "500.00", "stock": 30, "stock_minimo": 10 } }
+]

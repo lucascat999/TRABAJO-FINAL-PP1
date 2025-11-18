@@ -1,12 +1,30 @@
 {% extends 'base.html' %}
+
+{% block title %}Confirmar eliminación{% endblock %}
+
 {% block content %}
 <div class="container mt-4">
-  <h2>¿Eliminar producto?</h2>
-  <p>Se borrará definitivamente: <strong>{{ producto.nombre }}</strong></p>
-  <form method="post">
-    {% csrf_token %}
-    <button class="btn btn-danger" type="submit">Sí, eliminar</button>
-    <a class="btn btn-secondary" href="{% url 'productos:producto_list' %}">Cancelar</a>
-  </form>
+  <div class="card shadow">
+    <div class="card-header bg-danger text-white">
+      <h4 class="mb-0">
+        <i class="fas fa-exclamation-triangle"></i> Confirmar eliminación
+      </h4>
+    </div>
+    <div class="card-body">
+      <p>¿Estás seguro de que deseas eliminar el producto <strong>{{ producto.nombre }}</strong> (SKU: {{ producto.sku }})?</p>
+      <p class="text-muted">Esta acción no se puede deshacer.</p>
+    </div>
+    <div class="card-footer d-flex justify-content-between">
+      <form method="post" action="{% url 'productos:producto_delete' producto.pk %}">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">
+          <i class="fas fa-trash"></i> Sí, eliminar
+        </button>
+      </form>
+      <a href="{% url 'productos:producto_list' %}" class="btn btn-secondary">
+        <i class="fas fa-arrow-left"></i> Cancelar
+      </a>
+    </div>
+  </div>
 </div>
 {% endblock %}

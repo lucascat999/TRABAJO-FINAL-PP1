@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sistema de Inventario - {% block title %}{% endblock %}</title>
     {% bootstrap_css %}
-    <!-- Font Awesome 6.5.0 -->
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <style>
         .navbar-brand { font-weight: bold; }
@@ -19,16 +19,22 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
-            <a class="navbar-brand" href="{% url 'productos:producto_list' %}">
+            <a class="navbar-brand" href="{% url 'productos:dashboard' %}">
                 <i class="fas fa-boxes"></i> Sistema de Inventario
             </a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
             <div class="collapse navbar-collapse" id="navbarNav">
-                <!-- Menú izquierdo: según permisos -->
+                <!-- Menú izquierdo -->
                 <ul class="navbar-nav mr-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'productos:dashboard' %}">
+                            <i class="fas fa-tachometer-alt"></i> Dashboard
+                        </a>
+                    </li>
                     {% if perms.productos.view_producto %}
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'productos:producto_list' %}">
@@ -101,6 +107,15 @@
         </div>
         {% block content %}{% endblock %}
     </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white mt-5 py-3">
+      <div class="container text-center">
+        <small>
+          © {{ now|date:"Y" }} Sistema de Inventario | Proyecto académico - Ezequiel Guzmán
+        </small>
+      </div>
+    </footer>
 
     {% bootstrap_javascript jquery='full' %}
 </body>

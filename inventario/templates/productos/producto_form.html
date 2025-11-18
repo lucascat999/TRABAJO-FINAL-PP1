@@ -15,7 +15,7 @@
         </h4>
     </div>
     <div class="card-body">
-        <form method="post" enctype="multipart/form-data">
+        <form method="post" enctype="multipart/form-data" class="form">
             {% csrf_token %}
             {{ form|crispy }}
             <div class="mt-3">

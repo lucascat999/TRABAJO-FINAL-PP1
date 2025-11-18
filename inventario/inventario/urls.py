@@ -1,3 +1,4 @@
+
 """
 URL configuration for inventario project.
 """
@@ -9,7 +10,10 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('allauth.urls')),
-    path('', include('productos.urls')),   # ← raíz → productos.urls
+
+    # 🔧 ahora las rutas de productos están en raíz
+    path('', include('productos.urls')),
+
     path('ventas/', include('ventas.urls')),
     path('clientes/', include('clientes.urls')),
 ]

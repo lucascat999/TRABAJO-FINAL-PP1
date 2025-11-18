@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% block title %}Dashboard - Inventario{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+  <h2 class="mb-4"><i class="fas fa-tachometer-alt"></i> Panel de Control</h2>
+
+  <div class="row">
+    <!-- Total de productos -->
+    <div class="col-md-3">
+      <div class="card text-center shadow-sm">
+        <div class="card-body">
+          <i class="fas fa-box fa-2x text-primary mb-2"></i>
+          <h5 class="card-title">Productos</h5>
+          <p class="card-text display-4">{{ total_productos }}</p>
+        </div>
+        <div class="card-footer">
+          <a href="{% url 'productos:producto_list' %}" class="btn btn-sm btn-outline-primary">Ver listado</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stock bajo -->
+    <div class="col-md-3">
+      <div class="card text-center shadow-sm">
+        <div class="card-body">
+          <i class="fas fa-exclamation-triangle fa-2x text-danger mb-2"></i>
+          <h5 class="card-title">Stock bajo</h5>
+          <p class="card-text display-4">{{ productos_stock_bajo }}</p>
+        </div>
+        <div class="card-footer">
+          <a href="{% url 'productos:stock_bajo_list' %}" class="btn btn-sm btn-outline-danger">Ver detalles</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Categorías -->
+    <div class="col-md-3">
+      <div class="card text-center shadow-sm">
+        <div class="card-body">
+          <i class="fas fa-tags fa-2x text-success mb-2"></i>
+          <h5 class="card-title">Categorías</h5>
+          <p class="card-text display-4">{{ total_categorias }}</p>
+        </div>
+        <div class="card-footer">
+          <!-- 🔧 Ajuste: ahora apunta al listado de categorías -->
+          <a href="{% url 'productos:categoria_list' %}" class="btn btn-sm btn-outline-success">Ver categorías</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Acceso rápido -->
+    <div class="col-md-3">
+      <div class="card text-center shadow-sm">
+        <div class="card-body">
+          <i class="fas fa-plus fa-2x text-info mb-2"></i>
+          <h5 class="card-title">Nuevo producto</h5>
+          <p class="card-text">Alta rápida</p>
+        </div>
+        <div class="card-footer">
+          <a href="{% url 'productos:producto_create' %}" class="btn btn-sm btn-outline-info">Crear</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

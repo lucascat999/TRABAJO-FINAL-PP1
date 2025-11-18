@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block title %}Categorías{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+  <h2><i class="fas fa-tags"></i> Categorías</h2>
+  <a href="{% url 'productos:categoria_create' %}" class="btn btn-sm btn-primary mb-3">
+    <i class="fas fa-plus"></i> Nueva Categoría
+  </a>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Nombre</th>
+        <th>Descripción</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for categoria in categorias %}
+        <tr>
+          <td>{{ categoria.nombre }}</td>
+          <td>{{ categoria.descripcion }}</td>
+          <td>
+            <a href="{% url 'productos:categoria_update' categoria.pk %}" class="btn btn-sm btn-warning">Editar</a>
+            <a href="{% url 'productos:categoria_delete' categoria.pk %}" class="btn btn-sm btn-danger">Eliminar</a>
+          </td>
+        </tr>
+      {% empty %}
+        <tr>
+          <td colspan="3">No hay categorías registradas.</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% endblock %}
