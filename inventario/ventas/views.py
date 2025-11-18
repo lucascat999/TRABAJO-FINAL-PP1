@@ -16,14 +16,21 @@ def venta_create(request):
     if request.method == 'POST':
         form = VentaForm(request.POST)
         formset = ItemVentaFormSet(request.POST)
+
+        # =====  DEBUG  =====
+        print("DEBUG form errors:", form.errors)
+        print("DEBUG formset errors:", formset.errors)
+        print("DEBUG formset non-form errors:", formset.non_form_errors())
+        for f in formset.forms:
+            print("  form errors:", f.errors)
+        # ===================
+
         if form.is_valid() and formset.is_valid():
-            # =====  DEBUG  =====
             print("DEBUG form válido")
             print("DEBUG formset válido")
             print("DEBUG cantidad de forms en formset:", len(formset.forms))
             for f in formset.forms:
-                print("  form data:", f.cleaned_data)
-            # ===================
+                print("  form data:", f.cleaned_data, "errors:", f.errors)
 
             venta = form.save(commit=False)
             venta.save()
