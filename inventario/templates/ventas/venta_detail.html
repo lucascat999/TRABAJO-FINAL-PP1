@@ -13,7 +13,7 @@
     <div class="card-body">
         <p><strong>Cliente:</strong> {{ venta.cliente }}</p>
         <p><strong>Fecha:</strong> {{ venta.fecha|date:"d/m/Y H:i" }}</p>
-        <p><strong>Total:</strong> ${{ venta.total }}</p>
+        <p><strong>Total:</strong> ${{ venta.total|floatformat:2 }}</p>
 
         <h5 class="mt-4">Items</h5>
         <table class="table table-sm table-bordered">
@@ -30,8 +30,8 @@
                 <tr>
                     <td>{{ item.producto }}</td>
                     <td>{{ item.cantidad }}</td>
-                    <td>${{ item.precio_unitario }}</td>
-                    <td>${{ item.subtotal }}</td>
+                    <td>${{ item.precio_unitario|floatformat:2 }}</td>
+                    <td>${{ item.subtotal|floatformat:2 }}</td>
                 </tr>
                 {% endfor %}
             </tbody>

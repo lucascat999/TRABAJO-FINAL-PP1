@@ -35,5 +35,17 @@
         <a class="btn btn-sm btn-warning" href="{% url 'productos:producto_update' producto.pk %}">
           <i class="fas fa-edit"></i> Editar
         </a>
-        <form action="{% url 'productos:producto_delete' producto.pk %}" method="post" style="display:inline;">
+        <form action="{% url 'productos:producto_delete' producto.pk %}" method="post" class="d-inline">
           {% csrf_token %}
+          <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('¿Confirma eliminar?');">
+            <i class="fas fa-trash"></i> Eliminar
+          </button>
+        </form>
+      </div>
+      <a href="{% url 'productos:producto_list' %}" class="btn btn-secondary btn-sm">
+        <i class="fas fa-arrow-left"></i> Volver al listado
+      </a>
+    </div>
+  </div>
+</div>
+{% endblock %}

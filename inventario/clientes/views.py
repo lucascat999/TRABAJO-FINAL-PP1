@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.views.generic import ListView, CreateView, UpdateView, DeleteView
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
 from django.urls import reverse_lazy
 from django.contrib import messages
 from .models import Cliente
@@ -18,9 +18,17 @@ class ClienteListView(LoginRequiredMixin, ListView):
         q = self.request.GET.get('q')
         if q:
             queryset = queryset.filter(
-                models.Q(nombre__icontains=q) | models.Q(apellido__icontains=q)
+                models.Q(nombre__icontains=q) |
+                models.Q(apellido__icontains=q) |
+                models.Q(direccion__icontains=q)
             )
         return queryset
+
+
+class ClienteDetailView(LoginRequiredMixin, DetailView):
+    model = Cliente
+    template_name = 'clientes/cliente_detail.html'
+    context_object_name = 'cliente'
 
 
 class ClienteCreateView(LoginRequiredMixin, CreateView):
